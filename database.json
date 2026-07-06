@@ -6,15 +6,6 @@
   },
   "schedule": [
     {
-      "id": "1",
-      "date": "2026-07-05",
-      "time": "18:00",
-      "title": "Đi ăn tối lãng mạn 🍽️",
-      "desc": "Đặt bàn trước tại nhà hàng view đẹp để ngắm hoàng hôn cùng nhau.",
-      "link": "https://maps.google.com",
-      "category": "food"
-    },
-    {
       "id": "2",
       "date": "2026-07-05",
       "time": "20:00",
