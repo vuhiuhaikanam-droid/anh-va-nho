@@ -36,12 +36,12 @@ const defaultData = {
   settings: {
     password: "123456",
     max_visitors: 2,
-    background_image_url: ""
+    background_image_url: "/images/bg.jpg"
   },
   schedule: [
     {
       id: "1",
-      date: new Date().toISOString().split('T')[0],
+      date: "2026-07-05",
       time: "18:00",
       title: "Đi ăn tối lãng mạn 🍽️",
       desc: "Đặt bàn trước tại nhà hàng view đẹp để ngắm hoàng hôn cùng nhau.",
@@ -50,11 +50,20 @@ const defaultData = {
     },
     {
       id: "2",
-      date: new Date().toISOString().split('T')[0],
+      date: "2026-07-05",
       time: "20:00",
       title: "Xem phim tại rạp 🎬",
       desc: "Đặt vé xem phim tình cảm ngọt ngào, chuẩn bị bỏng ngô và đồ uống.",
       link: "https://www.cgv.vn",
+      category: "movie"
+    },
+    {
+      id: "399312d5-47e9-4417-ba9a-2fa85e4ae958",
+      date: "2026-07-06",
+      time: "19:00",
+      title: "xem phim",
+      desc: "",
+      link: "",
       category: "movie"
     }
   ],
