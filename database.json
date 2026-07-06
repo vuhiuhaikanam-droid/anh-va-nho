@@ -6,15 +6,6 @@
   },
   "schedule": [
     {
-      "id": "2",
-      "date": "2026-07-05",
-      "time": "20:00",
-      "title": "Xem phim tại rạp 🎬",
-      "desc": "Đặt vé xem phim tình cảm ngọt ngào, chuẩn bị bỏng ngô và đồ uống.",
-      "link": "https://www.cgv.vn",
-      "category": "movie"
-    },
-    {
       "id": "399312d5-47e9-4417-ba9a-2fa85e4ae958",
       "date": "2026-07-06",
       "time": "19:00",
