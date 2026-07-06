@@ -4,7 +4,17 @@
     "max_visitors": 2,
     "background_image_url": "/images/bg.jpg"
   },
-  "schedule": [],
+  "schedule": [
+    {
+      "id": "c6542724-5e96-4516-8b39-de72d53fb210",
+      "date": "2026-07-11",
+      "time": "19:00",
+      "title": "đi ăn cơm",
+      "desc": "",
+      "link": "",
+      "category": "walk"
+    }
+  ],
   "wishlist": [
     {
       "id": "1",
