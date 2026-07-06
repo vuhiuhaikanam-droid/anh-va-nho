@@ -4,17 +4,7 @@
     "max_visitors": 2,
     "background_image_url": "/images/bg.jpg"
   },
-  "schedule": [
-    {
-      "id": "399312d5-47e9-4417-ba9a-2fa85e4ae958",
-      "date": "2026-07-06",
-      "time": "19:00",
-      "title": "xem phim",
-      "desc": "",
-      "link": "",
-      "category": "movie"
-    }
-  ],
+  "schedule": [],
   "wishlist": [
     {
       "id": "1",
