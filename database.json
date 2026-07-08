@@ -6,6 +6,15 @@
   },
   "schedule": [
     {
+      "id": "634c7615-df89-4ede-aeda-6eb94f1d8a2a",
+      "date": "2026-07-11",
+      "time": "00:15",
+      "title": "Đi ănnn",
+      "desc": "Maybe đi ăn ở 141 Chùa Láng (gần chỗ chụp ảnh) (~200🐟)",
+      "link": "",
+      "category": "food"
+    },
+    {
       "id": "c6542724-5e96-4516-8b39-de72d53fb210",
       "date": "2026-07-11",
       "time": "07:30",
@@ -22,15 +31,6 @@
       "desc": "Bestie ptb - 363 đường Cầu Giấy (~200🐟)",
       "link": "",
       "category": "other"
-    },
-    {
-      "id": "634c7615-df89-4ede-aeda-6eb94f1d8a2a",
-      "date": "2026-07-11",
-      "time": "10:30",
-      "title": "Đi ănnn",
-      "desc": "Maybe đi ăn ở 141 Chùa Láng (gần chỗ chụp ảnh) (~200🐟)",
-      "link": "",
-      "category": "food"
     },
     {
       "id": "f04c9b6e-dea3-4e37-9b9f-4a38441cdde4",
