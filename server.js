@@ -38,7 +38,16 @@ const defaultData = {
   settings: {
     password: "123456",
     max_visitors: 2,
-    background_image_url: "/images/bg.jpg"
+    background_image_url: "/images/bg.jpg",
+    lc_start_date: "2024-02-14",
+    lc_name_me: "Anh",
+    lc_name_them: "Em",
+    lc_age_me: 25,
+    lc_age_them: 23,
+    lc_zodiac_me: "♈ Bạch Dương",
+    lc_zodiac_them: "♓ Song Ngư",
+    lc_avatar_me_url: "",
+    lc_avatar_them_url: ""
   },
   schedule: [
     {
@@ -320,7 +329,16 @@ app.get('/api/data', auth, async (req, res) => {
   const db = await readDb();
   const safeSettings = {
     max_visitors: db.settings.max_visitors,
-    background_image_url: db.settings.background_image_url
+    background_image_url: db.settings.background_image_url,
+    lc_start_date: db.settings.lc_start_date,
+    lc_name_me: db.settings.lc_name_me,
+    lc_name_them: db.settings.lc_name_them,
+    lc_age_me: db.settings.lc_age_me,
+    lc_age_them: db.settings.lc_age_them,
+    lc_zodiac_me: db.settings.lc_zodiac_me,
+    lc_zodiac_them: db.settings.lc_zodiac_them,
+    lc_avatar_me_url: db.settings.lc_avatar_me_url,
+    lc_avatar_them_url: db.settings.lc_avatar_them_url
   };
   res.json({
     schedule: db.schedule,
@@ -440,7 +458,11 @@ app.delete('/api/wishlist/:id', auth, async (req, res) => {
 
 // Settings Update
 app.post('/api/settings', auth, async (req, res) => {
-  const { password, max_visitors, background_image_url } = req.body;
+  const { 
+    password, max_visitors, background_image_url,
+    lc_start_date, lc_name_me, lc_name_them,
+    lc_age_me, lc_age_them, lc_zodiac_me, lc_zodiac_them
+  } = req.body;
   const db = await readDb();
 
   if (password && password.trim().length > 0) {
@@ -457,10 +479,28 @@ app.post('/api/settings', auth, async (req, res) => {
     db.settings.background_image_url = background_image_url.trim();
   }
 
+  // Update Love Clock Settings
+  if (lc_start_date !== undefined) db.settings.lc_start_date = lc_start_date;
+  if (lc_name_me !== undefined) db.settings.lc_name_me = lc_name_me;
+  if (lc_name_them !== undefined) db.settings.lc_name_them = lc_name_them;
+  if (lc_age_me !== undefined) db.settings.lc_age_me = lc_age_me;
+  if (lc_age_them !== undefined) db.settings.lc_age_them = lc_age_them;
+  if (lc_zodiac_me !== undefined) db.settings.lc_zodiac_me = lc_zodiac_me;
+  if (lc_zodiac_them !== undefined) db.settings.lc_zodiac_them = lc_zodiac_them;
+
   await writeDb(db);
   res.json({ success: true, settings: {
     max_visitors: db.settings.max_visitors,
-    background_image_url: db.settings.background_image_url
+    background_image_url: db.settings.background_image_url,
+    lc_start_date: db.settings.lc_start_date,
+    lc_name_me: db.settings.lc_name_me,
+    lc_name_them: db.settings.lc_name_them,
+    lc_age_me: db.settings.lc_age_me,
+    lc_age_them: db.settings.lc_age_them,
+    lc_zodiac_me: db.settings.lc_zodiac_me,
+    lc_zodiac_them: db.settings.lc_zodiac_them,
+    lc_avatar_me_url: db.settings.lc_avatar_me_url,
+    lc_avatar_them_url: db.settings.lc_avatar_them_url
   }});
 });
 
@@ -479,6 +519,26 @@ app.post('/api/upload-bg', auth, upload.single('bgImage'), async (req, res) => {
     success: true,
     background_image_url: imageUrl
   });
+});
+
+// Upload Avatar Me
+app.post('/api/upload-avatar-me', auth, upload.single('avatarImage'), async (req, res) => {
+  if (!req.file) return res.status(400).json({ success: false, message: 'Không tìm thấy tệp.' });
+  const db = await readDb();
+  const imageUrl = `/uploads/${req.file.filename}`;
+  db.settings.lc_avatar_me_url = imageUrl;
+  await writeDb(db);
+  res.json({ success: true, avatar_url: imageUrl });
+});
+
+// Upload Avatar Them
+app.post('/api/upload-avatar-them', auth, upload.single('avatarImage'), async (req, res) => {
+  if (!req.file) return res.status(400).json({ success: false, message: 'Không tìm thấy tệp.' });
+  const db = await readDb();
+  const imageUrl = `/uploads/${req.file.filename}`;
+  db.settings.lc_avatar_them_url = imageUrl;
+  await writeDb(db);
+  res.json({ success: true, avatar_url: imageUrl });
 });
 
 // Serve Frontend SPA

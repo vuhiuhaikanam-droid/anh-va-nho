@@ -75,6 +75,60 @@
     <!-- Main Content Area -->
     <main class="main-layout">
       
+      <!-- Love Clock Section -->
+      <section class="love-clock-section glass-card">
+        <div class="love-clock-sparkle">💖</div>
+        <div class="love-clock-title">Chúng Mình Đã Yêu Nhau</div>
+        <div class="love-counter">
+          <div class="love-counter-item">
+            <span id="lc-years" class="lc-num">0</span>
+            <span class="lc-label">Năm</span>
+          </div>
+          <div class="love-counter-item">
+            <span id="lc-months" class="lc-num">0</span>
+            <span class="lc-label">Tháng</span>
+          </div>
+          <div class="love-counter-item">
+            <span id="lc-weeks" class="lc-num">0</span>
+            <span class="lc-label">Tuần</span>
+          </div>
+          <div class="love-counter-item">
+            <span id="lc-days" class="lc-num">0</span>
+            <span class="lc-label">Ngày</span>
+          </div>
+        </div>
+        <div id="lc-start-date" class="lc-start-date">Kể từ: --/--/----</div>
+        <div id="lc-clock" class="lc-clock">00 : 00 : 00</div>
+
+        <div class="love-profiles">
+          <div class="love-profile" id="profile-me">
+            <div class="love-avatar-wrap">
+              <img id="lc-avatar-me" class="love-avatar" src="/images/default-avatar.png" alt="Tôi" onerror="this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'35\' r=\'25\' fill=\'%23ff758c\'/><ellipse cx=\'50\' cy=\'80\' rx=\'35\' ry=\'25\' fill=\'%23ff758c\'/></svg>'">
+            </div>
+            <div id="lc-name-me" class="love-name">Anh</div>
+            <div class="love-tags">
+              <span id="lc-age-me" class="love-tag love-tag-blue">🎂 --</span>
+              <span id="lc-zodiac-me" class="love-tag love-tag-purple">⭐ --</span>
+            </div>
+          </div>
+
+          <div class="love-heart-center">
+            <div class="lc-heart-icon">❤️</div>
+          </div>
+
+          <div class="love-profile" id="profile-them">
+            <div class="love-avatar-wrap">
+              <img id="lc-avatar-them" class="love-avatar" src="/images/default-avatar.png" alt="Người Ấy" onerror="this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'35\' r=\'25\' fill=\'%23ff7eb3\'/><ellipse cx=\'50\' cy=\'80\' rx=\'35\' ry=\'25\' fill=\'%23ff7eb3\'/></svg>'">
+            </div>
+            <div id="lc-name-them" class="love-name">Em</div>
+            <div class="love-tags">
+              <span id="lc-age-them" class="love-tag love-tag-orange">🎂 --</span>
+              <span id="lc-zodiac-them" class="love-tag love-tag-teal">⭐ --</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- Top Section: Countdown Widget -->
       <section class="hero-section glass-card">
         <div class="hero-decor">✨</div>
@@ -251,6 +305,84 @@
               <label for="settings-max-visitors">Giới hạn số người truy cập đồng thời</label>
               <input type="number" id="settings-max-visitors" min="1" max="10" placeholder="2">
               <p class="form-hint">Khuyên dùng là 2 (chỉ bạn và người yêu) để bảo mật không gian riêng tư.</p>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h5><i data-lucide="heart"></i> Đồng Hồ Tình Yêu</h5>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="lc-start-date-input">Ngày bắt đầu yêu nhau</label>
+                <input type="date" id="lc-start-date-input">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="lc-name-me-input">Tên của bạn</label>
+                <input type="text" id="lc-name-me-input" placeholder="Ví dụ: Hiếu" style="padding-left:16px">
+              </div>
+              <div class="form-group">
+                <label for="lc-name-them-input">Tên người ấy</label>
+                <input type="text" id="lc-name-them-input" placeholder="Ví dụ: Nhỏ" style="padding-left:16px">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="lc-age-me-input">Tuổi của bạn</label>
+                <input type="number" id="lc-age-me-input" placeholder="25" min="1" max="100" style="padding-left:16px">
+              </div>
+              <div class="form-group">
+                <label for="lc-age-them-input">Tuổi người ấy</label>
+                <input type="number" id="lc-age-them-input" placeholder="23" min="1" max="100" style="padding-left:16px">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="lc-zodiac-me-input">Cung của bạn</label>
+                <select id="lc-zodiac-me-input" style="padding-left:16px">
+                  <option value="">-- Chọn cung --</option>
+                  <option>♈ Bạch Dương</option><option>♉ Kim Ngưu</option>
+                  <option>♊ Song Tử</option><option>♋ Cự Giải</option>
+                  <option>♌ Sư Tử</option><option>♍ Xử Nữ</option>
+                  <option>♎ Thiên Bình</option><option>♏ Bọ Cạp</option>
+                  <option>♐ Nhân Mã</option><option>♑ Ma Kết</option>
+                  <option>♒ Bảo Bình</option><option>♓ Song Ngư</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="lc-zodiac-them-input">Cung người ấy</label>
+                <select id="lc-zodiac-them-input" style="padding-left:16px">
+                  <option value="">-- Chọn cung --</option>
+                  <option>♈ Bạch Dương</option><option>♉ Kim Ngưu</option>
+                  <option>♊ Song Tử</option><option>♋ Cự Giải</option>
+                  <option>♌ Sư Tử</option><option>♍ Xử Nữ</option>
+                  <option>♎ Thiên Bình</option><option>♏ Bọ Cạp</option>
+                  <option>♐ Nhân Mã</option><option>♑ Ma Kết</option>
+                  <option>♒ Bảo Bình</option><option>♓ Song Ngư</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Ảnh đại diện của bạn</label>
+                <div class="file-upload-wrapper">
+                  <input type="file" id="lc-avatar-me-file" accept="image/*">
+                  <label for="lc-avatar-me-file" class="file-upload-btn">
+                    <i data-lucide="upload-cloud"></i><span>Chọn ảnh</span>
+                  </label>
+                  <div id="lc-avatar-me-status" class="form-hint">Chưa chọn ảnh.</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Ảnh đại diện người ấy</label>
+                <div class="file-upload-wrapper">
+                  <input type="file" id="lc-avatar-them-file" accept="image/*">
+                  <label for="lc-avatar-them-file" class="file-upload-btn">
+                    <i data-lucide="upload-cloud"></i><span>Chọn ảnh</span>
+                  </label>
+                  <div id="lc-avatar-them-status" class="form-hint">Chưa chọn ảnh.</div>
+                </div>
+              </div>
             </div>
           </div>
 

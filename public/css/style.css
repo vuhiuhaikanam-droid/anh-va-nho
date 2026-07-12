@@ -1203,6 +1203,172 @@ label {
   }
 }
 
+/* ==========================================
+   LOVE CLOCK SECTION
+   ========================================== */
+.love-clock-section {
+  text-align: center;
+  padding: 40px 20px;
+  position: relative;
+  overflow: hidden;
+  animation: fadeIn 0.8s ease-out;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.love-clock-sparkle {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  animation: floatDecor 3s ease-in-out infinite alternate;
+}
+
+.love-clock-title {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  margin-bottom: 25px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.love-counter {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.love-counter-item {
+  background: rgba(142, 45, 226, 0.5); /* Purple-ish */
+  backdrop-filter: blur(5px);
+  border-radius: 12px;
+  padding: 15px 20px;
+  min-width: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+.lc-num {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  margin-bottom: 8px;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.lc-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--accent-purple);
+  padding: 3px 12px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.lc-start-date {
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(0, 0, 0, 0.15);
+  display: inline-block;
+  padding: 6px 18px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
+.lc-clock {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 2px;
+  margin-bottom: 35px;
+  font-family: monospace;
+}
+
+.love-profiles {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  margin-top: 10px;
+}
+
+.love-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.love-avatar-wrap {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  padding: 4px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.2));
+  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+  margin-bottom: 12px;
+}
+
+.love-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+}
+
+.love-name {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.love-tags {
+  display: flex;
+  gap: 6px;
+}
+
+.love-tag {
+  font-size: 0.75rem;
+  padding: 3px 8px;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.love-tag-blue { background: #5D9CEC; }
+.love-tag-purple { background: #AC92EC; }
+.love-tag-orange { background: #FC6E51; }
+.love-tag-teal { background: #48CFAD; }
+
+.love-heart-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 35px;
+}
+
+.lc-heart-icon {
+  font-size: 3rem;
+  animation: heartbeatBeat 1.2s infinite;
+  filter: drop-shadow(0 2px 8px rgba(255,0,0,0.3));
+}
+
 @media (max-width: 600px) {
   #app-container {
     padding: 10px 10px 30px;
@@ -1248,5 +1414,37 @@ label {
   
   .category-selector {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .love-counter {
+    gap: 8px;
+  }
+  .love-counter-item {
+    min-width: 70px;
+    padding: 10px;
+  }
+  .lc-num {
+    font-size: 2rem;
+  }
+  .lc-label {
+    font-size: 0.7rem;
+    padding: 2px 8px;
+  }
+  .love-avatar-wrap {
+    width: 80px;
+    height: 80px;
+  }
+  .love-profiles {
+    gap: 15px;
+  }
+  .love-clock-title {
+    font-size: 1.6rem;
+  }
+  .lc-clock {
+    font-size: 1.2rem;
+  }
+  .lc-heart-icon {
+    font-size: 2rem;
+    margin-top: 25px;
   }
 }

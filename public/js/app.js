@@ -174,6 +174,18 @@ function handleDataLoaded(data) {
     if (data.settings.max_visitors) {
       document.getElementById('settings-max-visitors').value = data.settings.max_visitors;
     }
+
+    // Populate Love Clock Settings Form
+    if (data.settings.lc_start_date) document.getElementById('lc-start-date-input').value = data.settings.lc_start_date;
+    if (data.settings.lc_name_me) document.getElementById('lc-name-me-input').value = data.settings.lc_name_me;
+    if (data.settings.lc_name_them) document.getElementById('lc-name-them-input').value = data.settings.lc_name_them;
+    if (data.settings.lc_age_me) document.getElementById('lc-age-me-input').value = data.settings.lc_age_me;
+    if (data.settings.lc_age_them) document.getElementById('lc-age-them-input').value = data.settings.lc_age_them;
+    if (data.settings.lc_zodiac_me) document.getElementById('lc-zodiac-me-input').value = data.settings.lc_zodiac_me;
+    if (data.settings.lc_zodiac_them) document.getElementById('lc-zodiac-them-input').value = data.settings.lc_zodiac_them;
+
+    // Render Love Clock
+    renderLoveClock(data.settings);
   }
   
   renderTimeline();
@@ -303,6 +315,64 @@ function renderWishlist() {
   });
   
   lucide.createIcons();
+}
+
+// ==========================================
+// LOVE CLOCK LOGIC
+// ==========================================
+let loveClockInterval = null;
+
+function renderLoveClock(settings) {
+  if (settings.lc_name_me) document.getElementById('lc-name-me').textContent = settings.lc_name_me;
+  if (settings.lc_name_them) document.getElementById('lc-name-them').textContent = settings.lc_name_them;
+  if (settings.lc_age_me) document.getElementById('lc-age-me').innerHTML = `🎂 ${settings.lc_age_me}`;
+  if (settings.lc_age_them) document.getElementById('lc-age-them').innerHTML = `🎂 ${settings.lc_age_them}`;
+  if (settings.lc_zodiac_me) document.getElementById('lc-zodiac-me').innerHTML = `⭐ ${settings.lc_zodiac_me}`;
+  if (settings.lc_zodiac_them) document.getElementById('lc-zodiac-them').innerHTML = `⭐ ${settings.lc_zodiac_them}`;
+  
+  if (settings.lc_avatar_me_url) document.getElementById('lc-avatar-me').src = settings.lc_avatar_me_url;
+  if (settings.lc_avatar_them_url) document.getElementById('lc-avatar-them').src = settings.lc_avatar_them_url;
+  
+  if (settings.lc_start_date) {
+    const d = new Date(settings.lc_start_date);
+    const dateStr = `${d.getDate().toString().padStart(2,'0')}/${(d.getMonth()+1).toString().padStart(2,'0')}/${d.getFullYear()}`;
+    document.getElementById('lc-start-date').textContent = `Kể từ: ${dateStr}`;
+    
+    if (loveClockInterval) clearInterval(loveClockInterval);
+    updateLoveClockTick(d);
+    loveClockInterval = setInterval(() => updateLoveClockTick(d), 1000);
+  }
+}
+
+function updateLoveClockTick(startDate) {
+  const now = new Date();
+  
+  let years = now.getFullYear() - startDate.getFullYear();
+  let months = now.getMonth() - startDate.getMonth();
+  let days = now.getDate() - startDate.getDate();
+  
+  if (days < 0) {
+    months--;
+    const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+    days += prevMonth.getDate();
+  }
+  if (months < 0) {
+    years--;
+    months += 12;
+  }
+  
+  const weeks = Math.floor(days / 7);
+  days = days % 7;
+  
+  document.getElementById('lc-years').textContent = years;
+  document.getElementById('lc-months').textContent = months;
+  document.getElementById('lc-weeks').textContent = weeks;
+  document.getElementById('lc-days').textContent = days;
+  
+  const h = now.getHours().toString().padStart(2, '0');
+  const m = now.getMinutes().toString().padStart(2, '0');
+  const s = now.getSeconds().toString().padStart(2, '0');
+  document.getElementById('lc-clock').textContent = `${h} : ${m} : ${s}`;
 }
 
 // ==========================================
@@ -510,6 +580,14 @@ async function handleSettingsSubmit(e) {
   if (maxVisitors.trim().length > 0) payload.max_visitors = maxVisitors;
   if (bgUrl !== undefined) payload.background_image_url = bgUrl;
   
+  payload.lc_start_date = document.getElementById('lc-start-date-input').value;
+  payload.lc_name_me = document.getElementById('lc-name-me-input').value;
+  payload.lc_name_them = document.getElementById('lc-name-them-input').value;
+  payload.lc_age_me = document.getElementById('lc-age-me-input').value;
+  payload.lc_age_them = document.getElementById('lc-age-them-input').value;
+  payload.lc_zodiac_me = document.getElementById('lc-zodiac-me-input').value;
+  payload.lc_zodiac_them = document.getElementById('lc-zodiac-them-input').value;
+  
   const msgEl = document.getElementById('settings-message');
   msgEl.className = 'alert';
   msgEl.classList.add('hidden');
@@ -523,6 +601,7 @@ async function handleSettingsSubmit(e) {
       
       // Apply background immediately
       updateBackgroundImage(res.settings.background_image_url);
+      renderLoveClock(res.settings);
       
       // Clear password field
       document.getElementById('settings-password').value = '';
@@ -556,6 +635,28 @@ async function handleBgFileUpload(e) {
       statusEl.textContent = 'Đã tải lên và áp dụng ảnh nền mới! 🎉';
       updateBackgroundImage(res.background_image_url);
       document.getElementById('settings-bg-url').value = res.background_image_url;
+    }
+  } catch (err) {
+    statusEl.textContent = `Lỗi tải ảnh lên: ${err.message}`;
+  }
+}
+
+async function handleAvatarUpload(e, type) {
+  const fileInput = e.target;
+  const file = fileInput.files[0];
+  if (!file) return;
+  
+  const statusEl = document.getElementById(`lc-avatar-${type}-status`);
+  statusEl.textContent = 'Đang tải ảnh lên... ⏳';
+  
+  const formData = new FormData();
+  formData.append('avatarImage', file);
+  
+  try {
+    const res = await apiCall(`/api/upload-avatar-${type}`, 'POST', formData, true);
+    if (res.success) {
+      statusEl.textContent = 'Đã tải lên ảnh mới! 🎉';
+      document.getElementById(`lc-avatar-${type}`).src = res.avatar_url;
     }
   } catch (err) {
     statusEl.textContent = `Lỗi tải ảnh lên: ${err.message}`;
@@ -692,6 +793,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('settings-form').addEventListener('submit', handleSettingsSubmit);
   document.getElementById('settings-bg-file').addEventListener('change', handleBgFileUpload);
+  document.getElementById('lc-avatar-me-file').addEventListener('change', (e) => handleAvatarUpload(e, 'me'));
+  document.getElementById('lc-avatar-them-file').addEventListener('change', (e) => handleAvatarUpload(e, 'them'));
 
   // Event Modal controls
   document.getElementById('btn-add-event').addEventListener('click', openAddEventModal);
