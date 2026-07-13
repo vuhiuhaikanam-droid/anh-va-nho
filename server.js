@@ -531,34 +531,48 @@ app.post('/api/upload-bg', auth, upload.single('bgImage'), async (req, res) => {
   }
 
   const db = await readDb();
-  const imageUrl = `/uploads/${req.file.filename}`;
-  db.settings.background_image_url = imageUrl;
-
-  await writeDb(db);
-  res.json({
-    success: true,
-    background_image_url: imageUrl
-  });
+  try {
+    const fileData = fs.readFileSync(req.file.path);
+    const base64Str = `data:${req.file.mimetype};base64,${fileData.toString('base64')}`;
+    db.settings.background_image_url = base64Str;
+    await writeDb(db);
+    fs.unlinkSync(req.file.path); // clean up local file
+    res.json({ success: true, background_image_url: base64Str });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Lỗi xử lý ảnh.' });
+  }
 });
 
 // Upload Avatar Me
 app.post('/api/upload-avatar-me', auth, upload.single('avatarImage'), async (req, res) => {
   if (!req.file) return res.status(400).json({ success: false, message: 'Không tìm thấy tệp.' });
   const db = await readDb();
-  const imageUrl = `/uploads/${req.file.filename}`;
-  db.settings.lc_avatar_me_url = imageUrl;
-  await writeDb(db);
-  res.json({ success: true, avatar_url: imageUrl });
+  try {
+    const fileData = fs.readFileSync(req.file.path);
+    const base64Str = `data:${req.file.mimetype};base64,${fileData.toString('base64')}`;
+    db.settings.lc_avatar_me_url = base64Str;
+    await writeDb(db);
+    fs.unlinkSync(req.file.path);
+    res.json({ success: true, avatar_url: base64Str });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Lỗi xử lý ảnh.' });
+  }
 });
 
 // Upload Avatar Them
 app.post('/api/upload-avatar-them', auth, upload.single('avatarImage'), async (req, res) => {
   if (!req.file) return res.status(400).json({ success: false, message: 'Không tìm thấy tệp.' });
   const db = await readDb();
-  const imageUrl = `/uploads/${req.file.filename}`;
-  db.settings.lc_avatar_them_url = imageUrl;
-  await writeDb(db);
-  res.json({ success: true, avatar_url: imageUrl });
+  try {
+    const fileData = fs.readFileSync(req.file.path);
+    const base64Str = `data:${req.file.mimetype};base64,${fileData.toString('base64')}`;
+    db.settings.lc_avatar_them_url = base64Str;
+    await writeDb(db);
+    fs.unlinkSync(req.file.path);
+    res.json({ success: true, avatar_url: base64Str });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Lỗi xử lý ảnh.' });
+  }
 });
 
 // Serve Frontend SPA
