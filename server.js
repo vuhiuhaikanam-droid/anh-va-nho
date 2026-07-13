@@ -91,7 +91,12 @@ const defaultData = {
 };
 
 // ===== GitHub API helpers =====
+let memoryDb = null;
+
 async function readDb() {
+  // If we already have it in memory, return a deep copy to prevent reference mutation
+  if (memoryDb) return JSON.parse(JSON.stringify(memoryDb));
+
   // Use GitHub API if token is available (production on Render)
   if (GITHUB_TOKEN) {
     try {
@@ -105,16 +110,19 @@ async function readDb() {
 
       if (!response.ok) {
         console.error('GitHub API read error:', response.status);
-        return defaultData;
+        memoryDb = defaultData;
+        return JSON.parse(JSON.stringify(memoryDb));
       }
 
       const fileData = await response.json();
       cachedSha = fileData.sha;
       const content = Buffer.from(fileData.content, 'base64').toString('utf-8');
-      return JSON.parse(content);
+      memoryDb = JSON.parse(content);
+      return JSON.parse(JSON.stringify(memoryDb));
     } catch (err) {
       console.error('Error reading from GitHub:', err);
-      return defaultData;
+      memoryDb = defaultData;
+      return JSON.parse(JSON.stringify(memoryDb));
     }
   }
 
@@ -122,17 +130,23 @@ async function readDb() {
   try {
     if (!fs.existsSync(DB_PATH)) {
       fs.writeFileSync(DB_PATH, JSON.stringify(defaultData, null, 2), 'utf-8');
-      return defaultData;
+      memoryDb = defaultData;
+      return JSON.parse(JSON.stringify(memoryDb));
     }
     const data = fs.readFileSync(DB_PATH, 'utf-8');
-    return JSON.parse(data);
+    memoryDb = JSON.parse(data);
+    return JSON.parse(JSON.stringify(memoryDb));
   } catch (err) {
     console.error("Error reading local database:", err);
-    return defaultData;
+    memoryDb = defaultData;
+    return JSON.parse(JSON.stringify(memoryDb));
   }
 }
 
-async function writeDb(data) {
+async function writeDb(data, retryCount = 0) {
+  // Update memory cache immediately
+  memoryDb = JSON.parse(JSON.stringify(data));
+
   // Use GitHub API if token is available (production on Render)
   if (GITHUB_TOKEN) {
     try {
@@ -173,8 +187,14 @@ async function writeDb(data) {
         console.log('Database saved to GitHub successfully.');
       } else {
         const errData = await putResponse.json();
-        console.error('GitHub API write error:', errData);
-        cachedSha = null; // reset SHA on conflict to re-fetch next time
+        console.error('GitHub API write error:', putResponse.status, errData);
+        cachedSha = null; // reset SHA on conflict
+        
+        // Retry logic for 409 Conflict (e.g. concurrent updates)
+        if (putResponse.status === 409 && retryCount < 3) {
+          console.log(`Retrying writeDb (Attempt ${retryCount + 1})...`);
+          setTimeout(() => writeDb(data, retryCount + 1), 1000);
+        }
       }
     } catch (err) {
       console.error('Error writing to GitHub:', err);
